@@ -2,7 +2,14 @@ spring:
   application:
     name: cond-way
   datasource:
-    url: jdbc:mysql://localhost:3306/cond_way
+    hikari:
+      maximumPoolSize: 10
+      minimumIdle: 5
+      idleTimeout: 30000
+      poolName: SpringBootHikariCP
+      maxLifetime: 60000
+      connectionTimeout: 20000
+    url: jdbc:mysql://localhost:3306/cond_way?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
     password: ${DATABASE_PASS}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -12,6 +19,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+  flyway:
+    locations: classpath:db/migration
 management:
   endpoints:
     web:
