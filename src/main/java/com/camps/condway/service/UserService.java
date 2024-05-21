@@ -25,8 +25,13 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public boolean isAuthorized(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            return passwordEncoder.matches(password, user.getPassword());
+
+        }
+        return false;
     }
 
     public List<User> findAll() {
