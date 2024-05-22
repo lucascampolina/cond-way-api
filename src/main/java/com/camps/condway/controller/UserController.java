@@ -3,7 +3,7 @@ package com.camps.condway.controller;
 import com.camps.condway.entity.User;
 import com.camps.condway.service.EmailService;
 import com.camps.condway.service.TemplateService;
-import com.camps.condway.service.UserService;
+import com.camps.condway.service.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +18,14 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     private final EmailService emailService;
 
     private final TemplateService templateService;
 
-    public UserController(UserService userService, EmailService emailService, TemplateService templateService) {
-        this.userService = userService;
+    public UserController(UserServiceImpl userServiceImpl, EmailService emailService, TemplateService templateService) {
+        this.userServiceImpl = userServiceImpl;
         this.emailService = emailService;
         this.templateService = templateService;
     }
@@ -33,7 +33,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody User user) {
         try {
-            userService.register(user);
+            userServiceImpl.register(user);
 
             Context context = new Context();
             context.setVariable("firstName", user.getFirstName());
@@ -60,7 +60,7 @@ public class UserController {
 
     @GetMapping()
     public ResponseEntity<List<User>> findAll() {
-       List<User> users = userService.findAll();
+       List<User> users = userServiceImpl.findAll();
        return ResponseEntity.ok(users);
 
     }

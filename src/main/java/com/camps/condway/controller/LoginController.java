@@ -1,8 +1,9 @@
 package com.camps.condway.controller;
 
-import com.camps.condway.service.UserService;
+import com.camps.condway.service.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -10,11 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     @GetMapping
-    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) {
-        if (userService.isAuthorized(email, password)) {
+    public ResponseEntity<?> login(@RequestParam String email) {
+        UserDetails userDetails = userServiceImpl.loadUserByUsername(email);
+        if (userDetails.isEnabled()) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(401).body("Invalid email or passowrd");
