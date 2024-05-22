@@ -1,15 +1,29 @@
 spring:
   application:
     name: cond-way
+  mail:
+    default-encoding: UTF-8
+    host: smtp-mail.outlook.com
+    port: 587
+    username: lucascampolina@hotmail.com
+    password: ${EMAIL_PASS}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   datasource:
     hikari:
+      username: root
+      password: ${DATABASE_PASS}
       maximumPoolSize: 10
       minimumIdle: 5
       idleTimeout: 30000
       poolName: SpringBootHikariCP
       maxLifetime: 60000
       connectionTimeout: 20000
-    url: jdbc:mysql://localhost:3306/cond_way?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/cond_way
     username: root
     password: ${DATABASE_PASS}
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -19,6 +33,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+    show-sql: true
   flyway:
     locations: classpath:db/migration
 management:

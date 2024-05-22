@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .content {
+            margin: 20px 0;
+        }
+        .footer {
+            background-color: #007BFF;
+            color: #333;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 12px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 20px 0;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Bem-vindo ao CondWay!</h1>
+    </div>
+    <div class="content">
+        <p>Olá, <strong>[[${firstName}]]</strong>!</p>
+        <p>Estamos muito felizes em ter você com a gente. Esperamos que aproveite nosso sistema para agilizar sua vida e dar mais tempo para o que realmente importa.</p>
+        <p>Clique no botão abaixo:</p>
+        <a href="https://www.condway.com" class="button"><strong>Comece Agora</strong></a>
+    </div>
+    <div class="footer">
+        <p><strong> © 2024 CondWay. Todos os direitos reservados. </strong></p>
+    </div>
+</div>
+</body>
+</html>
