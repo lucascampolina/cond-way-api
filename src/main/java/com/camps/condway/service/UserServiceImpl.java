@@ -1,5 +1,7 @@
 package com.camps.condway.service;
 
+import brave.Span;
+import brave.Tracer;
 import com.camps.condway.entity.Role;
 import com.camps.condway.entity.User;
 import com.camps.condway.exceptions.UserException;
@@ -7,8 +9,6 @@ import com.camps.condway.repository.RoleRepository;
 import com.camps.condway.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.sleuth.Span;
-import org.springframework.cloud.sleuth.Tracer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserDetailsService {
         Span span = tracer.nextSpan().name("userSpan").tag("transactionId", uuid).start();
 
         log.info("Registrando usuario com email: {}", user.getEmail());
-        try (Tracer.SpanInScope spanInScope = this.tracer.withSpan(span.start())) {
+        try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span)) {
             Role defaultRole = roleRepository.findByName("USER");
             if (defaultRole == null) {
                 log.error("Role USER nao encontrada para o email: {}", user.getEmail());
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserDetailsService {
             log.error("Erro ao registrar usuario com o email: {}", user.getEmail(), e);
             throw new UserException("Erro ao registrar usuario", e.getCause());
         } finally {
-            span.end();
+            span.finish();
         }
     }
 
