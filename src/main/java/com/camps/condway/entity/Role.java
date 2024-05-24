@@ -7,6 +7,7 @@ import lombok.Setter;
 import java.util.Set;
 
 @Entity
+@Table(name = "roles")
 @Getter
 @Setter
 public class Role {
@@ -15,6 +16,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String name;
 
     @ManyToMany(mappedBy = "roles")
@@ -22,9 +24,8 @@ public class Role {
 
     @ManyToMany
     @JoinTable(
-            name = "role_permission",
+            name = "role_permissions",
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id"))
-
     private Set<Permission> permissions;
 }
