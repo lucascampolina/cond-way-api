@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,7 +30,6 @@ public class UserServiceImpl implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final Tracer tracer;
-
     @Autowired
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, Tracer tracer) {
         this.userRepository = userRepository;
@@ -42,11 +40,9 @@ public class UserServiceImpl implements UserDetailsService {
 
     public Optional<User> register(User user) {
 
-        String uuid = UUID.randomUUID().toString();
-        Span span = tracer.nextSpan().name("userSpan").tag("transactionId", uuid).start();
-
         log.info("Registrando usuario com email: {}", user.getEmail());
-        try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span)) {
+        Span span = tracer.nextSpan().name("register");
+        try (Tracer.SpanInScope ws = tracer.withSpanInScope(span.start())) {
             Role defaultRole = roleRepository.findByName("USER");
             if (defaultRole == null) {
                 log.error("Role USER nao encontrada para o email: {}", user.getEmail());
@@ -62,8 +58,6 @@ public class UserServiceImpl implements UserDetailsService {
         } catch (Exception e) {
             log.error("Erro ao registrar usuario com o email: {}", user.getEmail(), e);
             throw new UserException("Erro ao registrar usuario", e.getCause());
-        } finally {
-            span.finish();
         }
     }
 
@@ -73,6 +67,11 @@ public class UserServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Span span = tracer.nextSpan().name("register");
+        try (Tracer.SpanInScope ws = tracer.withSpanInScope(span.start())) {
+            log.info("teste");
+            User user = userRepository.findByEmail(email);
+        }
         User user = userRepository.findByEmail(email);
         if (user == null) {
             log.warn("Usuario nao encontrado com o e-mail: {}", user.getEmail());

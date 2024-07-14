@@ -36,13 +36,13 @@ public class UserController {
             Optional<User> userOpt = userServiceImpl.register(user);
             if (userOpt.isPresent()) {
                 User registeredUser = userOpt.get();
-                CompletableFuture<Void> emailFuture = sendAsyncEmail(registeredUser);
-                emailFuture.handle((result, ex) -> {
-                    if (ex != null) {
-                        log.error("Erro ao enviar email {}", ex.getMessage());
-                    }
-                    return null;
-                });
+//                CompletableFuture<Void> emailFuture = sendAsyncEmail(registeredUser);
+//                emailFuture.handle((result, ex) -> {
+//                    if (ex != null) {
+//                        log.error("Erro ao enviar email {}", ex.getMessage());
+//                    }
+//                    return null;
+//                });
                 return ResponseEntity.ok(registeredUser);
             } else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(user);
@@ -59,6 +59,7 @@ public class UserController {
         String emailContent = templateService.generateEmailContent("welcome-template", context);
         return emailService.sendEmail(user.getEmail(), "Seu acesso ao CondWay!", emailContent);
     }
+
 
     @GetMapping
     public ResponseEntity<List<User>> findAll() {
