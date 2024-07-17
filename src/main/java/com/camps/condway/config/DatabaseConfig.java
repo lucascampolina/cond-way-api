@@ -19,22 +19,13 @@ public class DatabaseConfig {
         return new DataSourceProperties();
     }
 
-    //    @Bean
-//    public DataSource dataSource(DataSourceProperties properties) {
-//        return DataSourceBuilder.create()
-//                .driverClassName(properties.getDriverClassName())
-//                .url(properties.getUrl())
-//                .username(properties.getUsername())
-//                .password(properties.getPassword())
-//                .build();
     @Bean
-    public DataSource dataSource() {
-        return DataSourceBuilder
-                .create()
-                .username(System.getenv("SPRING_DATASOURCE_USERNAME"))
-                .password(System.getenv("SPRING_DATASOURCE_PASSWORD"))
-                .url(System.getenv("SPRING_DATASOURCE_URL"))
-                .driverClassName("com.mysql.cj.jdbc.Driver")
+    public DataSource dataSource(DataSourceProperties properties) {
+        return DataSourceBuilder.create()
+                .driverClassName(properties.getDriverClassName())
+                .url(properties.getUrl())
+                .username(properties.getUsername())
+                .password(properties.getPassword())
                 .build();
     }
 }
