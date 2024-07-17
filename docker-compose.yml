@@ -1,39 +1,37 @@
 version: '3.8'
 services:
-  mysql:
-    image: mysql:latest
-    container_name: mysql-container
+  postgres:
+    image: postgres:latest
+    container_name: postgres-container
     environment:
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 612415Lc@*
-      MYSQL_ROOT_PASSWORD: 612415Lc@*
-      MYSQL_DATABASE: cond_way
+      POSTGRES_DB: cond_way
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
     ports:
-      - "3306:3306"
+      - "5432:5432"
     networks:
-      - dev-network
+      - my-network
     volumes:
-      - mysql-data:/var/lib/mysql
+      - postgres-data:/var/lib/postgresql/data
 
   app:
-    build: /Users/lucascampolina/workspace/cond-way
-#    image: cond-way-app
-    container_name: cond-way-app
+    image: cond-way-api
+    container_name: app-container
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/cond-way
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 612415Lc@*
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-container:5432/cond_way
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: password
+      EMAIL_PASS: '#Gmm&mNu0t##0Ya'
     depends_on:
-      - mysql
+      - postgres
     networks:
-      - dev-network
+      - my-network
 
 networks:
-  dev-network:
+  my-network:
     driver: bridge
 
 volumes:
-  mysql-data:
-
+  postgres-data:

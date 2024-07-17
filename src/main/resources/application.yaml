@@ -19,25 +19,16 @@ spring:
   zipkin:
     base-url: http://localhost:9411
   datasource:
-    hikari:
-      username: ${SPRING_DATASOURCE_USERNAME}
-      password: ${SPRING_DATASOURCE_PASSWORD}
-      maximumPoolSize: 10
-      minimumIdle: 5
-      idleTimeout: 30000
-      poolName: SpringBootHikariCP
-      maxLifetime: 60000
-      connectionTimeout: 20000
-    url: ${SPRING_DATASOURCE_URL}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/cond_way}
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
   flyway:
     locations: classpath:db/migration
