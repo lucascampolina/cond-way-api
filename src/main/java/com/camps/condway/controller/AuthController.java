@@ -19,6 +19,7 @@ public class AuthController {
 
     @PostMapping
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+
         UserDetails userDetails = userServiceImpl.loadUserByUsername(loginRequest.getEmail());
         if (userDetails != null && passwordEncoder.matches(loginRequest.getPassword(), userDetails.getPassword())) {
             return ResponseEntity.ok().build();

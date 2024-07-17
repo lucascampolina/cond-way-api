@@ -20,17 +20,17 @@ spring:
     base-url: http://localhost:9411
   datasource:
     hikari:
-      username: ${SPRING_DATASOURCE_USERNAME}
-      password: ${SPRING_DATASOURCE_PASSWORD}
+      username: root
+      password: ${DATABASE_PASS}
       maximumPoolSize: 10
       minimumIdle: 5
       idleTimeout: 30000
       poolName: SpringBootHikariCP
       maxLifetime: 60000
       connectionTimeout: 20000
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: jdbc:mysql://localhost:3306/cond_way
+    username: root
+    password: ${DATABASE_PASS}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:

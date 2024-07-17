@@ -24,22 +24,23 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/api/users/register", "/api/login").permitAll()
-                                .requestMatchers("/dashboard/**").hasRole("user")
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/dashboard/**").permitAll()
+                                .requestMatchers("/connected/**").permitAll()
+                                .requestMatchers("/admin/**").hasRole("USER")
                                 .anyRequest().authenticated()
                 )
-                .formLogin(formLogin ->
-                        formLogin
-                                .loginPage("/login")
-                                .defaultSuccessUrl("/dashboard", true)
-                                .permitAll()
-                )
-                .logout(logout ->
-                        logout
-                                .logoutUrl("/logout")
-                                .logoutSuccessUrl("/login?logout")
-                                .permitAll()
-                )
+//                .formLogin(formLogin ->
+//                        formLogin
+//                                .loginPage("/login")
+//                                .defaultSuccessUrl("/dashboard", true)
+//                                .permitAll()
+//                )
+//                .logout(logout ->
+//                        logout
+//                                .logoutUrl("/logout")
+//                                .logoutSuccessUrl("/login?logout")
+//                                .permitAll()
+//                )
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .userDetailsService(userDetailsService);
