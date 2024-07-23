@@ -18,10 +18,11 @@ spring:
       probability: 1.0
   zipkin:
     base-url: http://localhost:9411
+
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/cond_way}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    username: postgres
+    password: postgres
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -37,3 +38,11 @@ management:
     web:
       exposure:
         include: '*'
+---
+spring:
+  config:
+    activate:
+      on-profile: container
+  datasource:
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
